@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Hijabs & More by Fatima</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .admin-wrap { max-width: 640px; margin: 0 auto; padding: 30px 20px 60px; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .admin-header h2 { font-family: var(--font-display); color: var(--burgundy); }
+  .admin-card { background: var(--white); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); margin-bottom: 24px; }
+  #login-screen { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .login-box { background: var(--white); border-radius: var(--radius); padding: 32px 26px; width: 100%; max-width: 340px; box-shadow: var(--shadow-lg); text-align: center; }
+  .login-box img { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 14px; }
+  .login-box h2 { font-family: var(--font-display); color: var(--burgundy); margin-bottom: 18px; }
+  .error-text { color: #b3261e; font-size: 0.82rem; min-height: 18px; margin-top: 6px; }
+  #admin-screen { display: none; }
+  .admin-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--cream); }
+  .admin-row img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+  .admin-row-info { flex: 1; display: flex; flex-direction: column; font-size: 0.82rem; }
+  .admin-row-info span { opacity: 0.65; }
+  .admin-row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .admin-row-actions button { font-size: 0.72rem; padding: 6px 8px; border-radius: 6px; background: var(--blush); color: var(--burgundy-dark); font-weight: 600; }
+  .admin-row-actions button.danger { background: #f8d7da; color: #842029; }
+  #form-status { font-size: 0.85rem; margin-top: 10px; color: var(--burgundy); min-height: 18px; }
+  .form-actions { display: flex; gap: 10px; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-box">
+    <img src="assets/logo.png" alt="logo">
+    <h2>Fatima's Admin</h2>
+    <form id="login-form">
+      <div class="field"><label>Email</label><input type="email" name="email" required></div>
+      <div class="field"><label>Password</label><input type="password" name="password" required></div>
+      <button class="btn btn-buy" style="width:100%; padding:12px;">Log In</button>
+      <div class="error-text" id="login-error"></div>
+    </form>
+  </div>
+</div>
+
+<div id="admin-screen">
+  <header class="site-header">
+    <div class="header-bar">
+      <div class="brand">
+        <img src="assets/logo.png" alt="logo">
+        <div class="brand-text"><h1>Admin Panel</h1></div>
+      </div>
+      <button class="btn btn-outline" id="logout-btn" style="padding:8px 14px;">Log Out</button>
+    </div>
+  </header>
+
+  <div class="admin-wrap">
+    <div class="admin-card">
+      <div class="admin-header"><h2 id="form-title">Add a New Product</h2></div>
+      <form id="product-form">
+        <div class="field">
+          <label>Section</label>
+          <select name="section" id="f-section">
+            <option value="hijabs">Hijabs</option>
+            <option value="veils">Veils</option>
+            <option value="shoes">Shoes</option>
+            <option value="laces">Laces</option>
+            <option value="atamfa">Atamfa</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+        <div class="field"><label>Product name</label><input name="name" required></div>
+        <div id="dynamic-fields"></div>
+        <div class="field"><label>Price (₦)</label><input type="number" name="price" min="0" required></div>
+        <div class="field"><label>Discount % (leave blank if none)</label><input type="number" name="discount" min="0" max="100"></div>
+        <div class="field"><label>Photo</label><input type="file" accept="image/*" id="f-image"></div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-buy" id="submit-btn" style="flex:1; padding:12px;">Publish Product</button>
+          <button type="button" class="btn btn-outline" id="cancel-edit" style="flex:0 0 auto; padding:12px 16px;">Cancel</button>
+        </div>
+        <div id="form-status"></div>
+      </form>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-header"><h2>Your Products</h2></div>
+      <div id="product-list"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

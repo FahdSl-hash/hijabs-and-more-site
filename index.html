@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hijabs & More by Fatima — Modesty. Elegance. Confidence.</title>
+<meta name="description" content="Quality hijabs, veils, shoes, laces, and Atamfa — affordable prices, Birnin Kebbi.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Great+Vibes&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-bar">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Hijabs & More by Fatima logo">
+      <div class="brand-text">
+        <h1>Hijabs &amp; More</h1>
+        <span>by Fatima</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="cart-btn" id="cart-btn" aria-label="Open cart">
+        🛍️
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Quality You Wear, Confidence You Feel</h2>
+  <p>Modesty. Elegance. Confidence.</p>
+  <small>📍 Behind police barrack, Birnin Kebbi &nbsp;·&nbsp; 📞 09132896489</small>
+</section>
+
+<div class="categories-wrap">
+  <nav class="categories" aria-label="Shop by category">
+    <div class="cat-badge active" data-section="all"><div class="ring"><img src="assets/logo.png" alt="" onerror="this.parentElement.textContent='🛍️'"></div><span>All</span></div>
+    <div class="cat-badge" data-section="hijabs"><div class="ring"><img src="assets/icons/hijabs.png" alt="" onerror="this.parentElement.textContent='🧕'"></div><span>Hijabs</span></div>
+    <div class="cat-badge" data-section="veils"><div class="ring"><img src="assets/icons/veils.png" alt="" onerror="this.parentElement.textContent='🖤'"></div><span>Veils</span></div>
+    <div class="cat-badge" data-section="shoes"><div class="ring"><img src="assets/icons/shoes.png" alt="" onerror="this.parentElement.textContent='👡'"></div><span>Shoes</span></div>
+    <div class="cat-badge" data-section="laces"><div class="ring"><img src="assets/icons/laces.png" alt="" onerror="this.parentElement.textContent='🧵'"></div><span>Laces</span></div>
+    <div class="cat-badge" data-section="atamfa"><div class="ring"><img src="assets/icons/atamfa.png" alt="" onerror="this.parentElement.textContent='🧣'"></div><span>Atamfa</span></div>
+    <div class="cat-badge" data-section="others"><div class="ring"><img src="assets/icons/others.png" alt="" onerror="this.parentElement.textContent='✨'"></div><span>Others</span></div>
+  </nav>
+</div>
+
+<main id="catalog">
+  <h2 class="section-title">Our Products</h2>
+  <div class="product-grid" id="product-grid"></div>
+</main>
+
+<footer class="site-footer">
+  <h4>Hijabs &amp; More by Fatima</h4>
+  <p>Behind police barrack, Birnin Kebbi</p>
+  <p>📞 09132896489</p>
+  <div class="footer-links">
+    <a href="https://wa.me/2349132896489" target="_blank">Chat on WhatsApp</a>
+    <a href="admin.html">Admin</a>
+  </div>
+</footer>
+
+<!-- Cart drawer -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="close-btn" id="cart-close">&times;</button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><span id="cart-total">₦0</span></div>
+    <button class="btn btn-buy" id="checkout-btn">Checkout & Pay Online</button>
+    <a class="btn btn-whatsapp" style="display:block" id="cart-whatsapp" href="https://wa.me/2349132896489" target="_blank">Order via WhatsApp instead</a>
+  </div>
+</aside>
+
+<!-- Checkout modal -->
+<div class="modal-overlay" id="checkout-modal">
+  <div class="modal">
+    <h3>Checkout</h3>
+    <form id="checkout-form">
+      <div class="field"><label>Full name</label><input name="name" required></div>
+      <div class="field"><label>Email (for payment receipt)</label><input type="email" name="email" required></div>
+      <div class="field"><label>Phone number</label><input type="tel" name="phone" required></div>
+      <div class="field"><label>Delivery address</label><textarea name="address" rows="2" required></textarea></div>
+      <button type="submit" class="btn btn-buy" style="width:100%; padding:12px;">Pay Now</button>
+    </form>
+    <button id="checkout-close" class="btn btn-outline" style="width:100%; margin-top:10px;">Cancel</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
