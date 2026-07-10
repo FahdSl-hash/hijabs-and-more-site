@@ -43,20 +43,21 @@ function productCard(p) {
   const hasDiscount = p.discount && p.discount > 0;
   const finalPrice = hasDiscount ? p.price - (p.price * p.discount / 100) : p.price;
   const metaBits = [p.size, p.color, p.material, p.design, p.style].filter(Boolean).join(" · ");
+  const imgUrl = p.image_url || 'assets/logo.png';
 
   return `
     <div class="product-card">
-      <img class="product-img" src="${p.image_url || 'assets/logo.png'}" alt="${escapeHtml(p.name)}" loading="lazy">
+      <img class="product-img" src="${imgUrl}" alt="${escapeHtml(p.name)}" loading="lazy" onclick="openLightbox('${imgUrl}')">
       <div class="product-info">
         <div class="product-name">${escapeHtml(p.name)}</div>
-        ${metaBits ? `<div class="product-meta">${escapeHtml(metaBits)}</div>` : ""}
+        ${metaBits ? `<div class="product-meta" title="${escapeHtml(metaBits)}">${escapeHtml(metaBits)}</div>` : ""}
         <div class="price-row">
           <span class="price-now">₦${formatNaira(finalPrice)}</span>
           ${hasDiscount ? `<span class="price-old">₦${formatNaira(p.price)}</span><span class="discount-badge">-${p.discount}%</span>` : ""}
         </div>
         <div class="product-actions">
-          <a class="btn btn-whatsapp" target="_blank" href="${whatsappLink(p, finalPrice)}">WhatsApp</a>
-          <button class="btn btn-buy" onclick="addToCart('${p.id}')">Add to cart</button>
+          <a class="icon-btn whatsapp" title="Order via WhatsApp" target="_blank" href="${whatsappLink(p, finalPrice)}">💬</a>
+          <button class="icon-btn cart" title="Add to cart" onclick="addToCart('${p.id}')">🛒</button>
         </div>
       </div>
     </div>
@@ -66,6 +67,16 @@ function productCard(p) {
 function whatsappLink(p, finalPrice) {
   const msg = `Assalamu alaikum! I'd like to order:\n\n*${p.name}*\nPrice: ₦${formatNaira(finalPrice)}\n\nIs it available?`;
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
+// ---------- Image lightbox ----------
+function openLightbox(url) {
+  document.getElementById("lightbox-img").src = url;
+  document.getElementById("lightbox-overlay").classList.add("open");
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox-overlay").classList.remove("open");
 }
 
 // ---------- Category filter ----------
@@ -246,4 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("checkout-btn").addEventListener("click", openCheckout);
   document.getElementById("checkout-form").addEventListener("submit", submitCheckout);
   document.getElementById("checkout-close").addEventListener("click", closeCheckout);
+  document.getElementById("lightbox-overlay").addEventListener("click", (e) => {
+    if (e.target.id === "lightbox-overlay") closeLightbox();
+  });
 });
