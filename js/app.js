@@ -37,6 +37,7 @@ function renderProducts() {
   }
 
   grid.innerHTML = list.map(productCard).join("");
+  updateProductBadges();
 }
 
 function productCard(p) {
@@ -57,7 +58,10 @@ function productCard(p) {
         </div>
         <div class="product-actions">
           <a class="icon-btn whatsapp" title="Order via WhatsApp" target="_blank" href="${whatsappLink(p, finalPrice)}">💬</a>
-          <button class="icon-btn cart" title="Add to cart" onclick="addToCart('${p.id}')">🛒</button>
+          <button class="icon-btn cart" title="Add to cart" onclick="addToCart('${p.id}')">
+            🛒
+            <span class="qty-badge" id="qty-badge-${p.id}"></span>
+          </button>
         </div>
       </div>
     </div>
@@ -65,8 +69,24 @@ function productCard(p) {
 }
 
 function whatsappLink(p, finalPrice) {
-  const msg = `Assalamu alaikum! I'd like to order:\n\n*${p.name}*\nPrice: ₦${formatNaira(finalPrice)}\n\nIs it available?`;
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  const lines = [`Assalamu alaikum! I'd like to order:`, ``, `*${p.name}*`];
+
+  const sectionLabel = SECTIONS[p.section]?.label;
+  if (sectionLabel) lines.push(`Category: ${sectionLabel}`);
+  if (p.size) lines.push(`Size: ${p.size}`);
+  if (p.color) lines.push(`Color: ${p.color}`);
+  if (p.material) lines.push(`Material: ${p.material}`);
+  if (p.design) lines.push(`Design: ${p.design}`);
+  if (p.style) lines.push(`Style: ${p.style}`);
+
+  if (p.discount && p.discount > 0) {
+    lines.push(`Price: ₦${formatNaira(finalPrice)} (was ₦${formatNaira(p.price)}, -${p.discount}%)`);
+  } else {
+    lines.push(`Price: ₦${formatNaira(finalPrice)}`);
+  }
+
+  lines.push(``, `Is it available?`);
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
 
 // ---------- Image lightbox ----------
@@ -101,6 +121,21 @@ function saveCart() {
 function updateCartCount() {
   const count = cart.reduce((sum, i) => sum + i.qty, 0);
   document.getElementById("cart-count").textContent = count;
+  updateProductBadges();
+}
+
+function updateProductBadges() {
+  document.querySelectorAll(".qty-badge").forEach(badge => {
+    const id = badge.id.replace("qty-badge-", "");
+    const item = cart.find(i => i.id === id);
+    if (item && item.qty > 0) {
+      badge.textContent = item.qty;
+      badge.classList.add("show");
+    } else {
+      badge.textContent = "";
+      badge.classList.remove("show");
+    }
+  });
 }
 
 function addToCart(productId) {
@@ -138,6 +173,19 @@ function cartTotal() {
   return cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 }
 
+function cartWhatsappLink() {
+  if (cart.length === 0) {
+    return `https://wa.me/${WHATSAPP_NUMBER}`;
+  }
+  const lines = [`Assalamu alaikum! I'd like to order the following:`, ``];
+  cart.forEach((item, i) => {
+    const subtotal = item.price * item.qty;
+    lines.push(`${i + 1}. ${item.name} x${item.qty} — ₦${formatNaira(subtotal)}`);
+  });
+  lines.push(``, `*Total: ₦${formatNaira(cartTotal())}*`, ``, `Can we proceed?`);
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+
 function renderCart() {
   const container = document.getElementById("cart-items");
   if (cart.length === 0) {
@@ -160,6 +208,7 @@ function renderCart() {
     `).join("");
   }
   document.getElementById("cart-total").textContent = `₦${formatNaira(cartTotal())}`;
+  document.getElementById("cart-whatsapp").href = cartWhatsappLink();
 }
 
 function toggleCart(open) {
@@ -244,12 +293,23 @@ function showToast(msg) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
 }
 
+// ---------- Fixed header spacer ----------
+function syncHeaderSpacer() {
+  const header = document.querySelector(".site-header");
+  const spacer = document.getElementById("header-spacer");
+  if (header && spacer) spacer.style.height = header.offsetHeight + "px";
+}
+
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () => {
   initCategoryBadges();
   updateCartCount();
   renderCart();
   loadProducts();
+  syncHeaderSpacer();
+  window.addEventListener("resize", syncHeaderSpacer);
+  window.addEventListener("load", syncHeaderSpacer);
+  if (document.fonts) document.fonts.ready.then(syncHeaderSpacer);
 
   document.getElementById("cart-btn").addEventListener("click", () => toggleCart(true));
   document.getElementById("cart-close").addEventListener("click", () => toggleCart(false));
