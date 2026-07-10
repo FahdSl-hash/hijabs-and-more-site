@@ -3,7 +3,7 @@
 // Fill these in after creating your free project at https://supabase.com
 // Find them in: Project Settings -> API
 // ==========================================================================
-const SUPABASE_URL = "https://lfpmvqcztajopfmbxecj.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://lfpmvqcztajopfmbxecj.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_3QmKNhKhKBIN2aczXBnDiA_ldXvmdv9";
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
