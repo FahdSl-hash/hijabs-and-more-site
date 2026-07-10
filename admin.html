@@ -18,6 +18,8 @@
   .login-box img { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 14px; }
   .login-box h2 { font-family: var(--font-display); color: var(--burgundy); margin-bottom: 18px; }
   .error-text { color: #b3261e; font-size: 0.82rem; min-height: 18px; margin-top: 6px; }
+  .back-link { display: inline-block; margin-top: 16px; font-size: 0.85rem; font-weight: 600; color: var(--burgundy); }
+  .header-bar { flex-wrap: wrap; gap: 10px; }
   #admin-screen { display: none; }
   .admin-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--cream); }
   .admin-row img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
@@ -42,6 +44,7 @@
       <button class="btn btn-buy" style="width:100%; padding:12px;">Log In</button>
       <div class="error-text" id="login-error"></div>
     </form>
+    <a href="index.html" class="back-link">&larr; Back to store</a>
   </div>
 </div>
 
@@ -52,7 +55,10 @@
         <img src="assets/logo.png" alt="logo">
         <div class="brand-text"><h1>Admin Panel</h1></div>
       </div>
-      <button class="btn btn-outline" id="logout-btn" style="padding:8px 14px;">Log Out</button>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <a href="index.html" class="btn btn-outline" style="padding:8px 14px;">View Store</a>
+        <button class="btn btn-outline" id="logout-btn" style="padding:8px 14px;">Log Out</button>
+      </div>
     </div>
   </header>
 
